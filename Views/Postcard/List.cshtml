@@ -1,0 +1,37 @@
+@model PostcardViewModel
+
+
+
+<h1>@Model.CurrentCategory</h1>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+@foreach (var postcard in Model.Postcards)
+{
+    @* <div>
+        <span>
+            <h2>@postcard.PostcardId</h2>
+            <h2>@postcard.Name</h2>
+        </span>    
+        <h3>@postcard.Price.ToString("c")</h3>
+        <h4>@postcard.Category.CategoryName</h4>
+    </div> *@
+
+     <div class="col">
+            <div class="card pie-card">
+                <img src="@postcard.ImageThumbnailUrl" class="card-img-top" alt="@postcard.Name">
+                <div class="card-body pie-button">
+                    <h4 class="d-grid">
+                    </h4>
+
+                    <div class="d-flex justify-content-between mt-2">
+                        <h2 class="text-start">
+                            <a class="pie-link" asp-controller="Postcard" asp-action="Details" asp-route-id="@postcard.PostcardId">@postcard.Name</a>
+                        </h2>
+                        <h5 class="text-nowrap">
+                            @postcard.Price.ToString("c")
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+}
+</div>
