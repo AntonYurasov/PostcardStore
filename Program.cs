@@ -12,6 +12,10 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 //     optionsBuilder.UseNpgsql(builder.Configuration["ConnectionStrings:PostcardsDBCon"]);
 // });
 
+builder.Services.AddScoped<IShoppingCart, ShoppingCart>(sp => ShoppingCart.GetCart(sp));
+builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddDbContext<PostcardDBContext>();
 
 var app = builder.Build();
@@ -24,6 +28,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapDefaultControllerRoute();
+app.UseSession();
 
 //seed initial data
 DBInitializer.Seed(app.Services.CreateAsyncScope().ServiceProvider.GetRequiredService<PostcardDBContext>());

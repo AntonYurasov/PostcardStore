@@ -16,7 +16,7 @@
     </div> *@
 
      <div class="col">
-            <div class="card pie-card">
+            @* <div class="card pie-card">
                 <img src="@postcard.ImageThumbnailUrl" class="card-img-top" alt="@postcard.Name">
                 <div class="card-body pie-button">
                     <h4 class="d-grid">
@@ -31,7 +31,8 @@
                         </h5>
                     </div>
                 </div>
-            </div>
+            </div> *@
+            <partial name="_PostcardInfo" model="postcard"/>
         </div>
 }
 </div>

@@ -25,4 +25,5 @@ public class PostcardDBContext : DbContext
 
     public DbSet<Category> Categories { get; set; }
     public DbSet<Postcard> Postcards { get; set; }
+    public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
 }
