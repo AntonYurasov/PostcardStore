@@ -18,7 +18,7 @@ namespace ASPCourceEmpty.Models
         public void AddToCart(Postcard postcard)
         {
             var shoppingCartItem =
-                    _postcardDbContext.ShoppingCartItems.SingleOrDefault(
+                    _postcardDbContext.CartItems.SingleOrDefault(
                         s => s.Postcard.PostcardId == postcard.PostcardId && s.ShoppingCartId == ShoppingCartId);
 
             if (shoppingCartItem == null)
@@ -30,7 +30,7 @@ namespace ASPCourceEmpty.Models
                     Amount = 1
                 };
 
-                _postcardDbContext.ShoppingCartItems.Add(shoppingCartItem);
+                _postcardDbContext.CartItems.Add(shoppingCartItem);
             }
             else
             {
@@ -42,7 +42,7 @@ namespace ASPCourceEmpty.Models
         public int RemoveFromCart(Postcard postcard)
         {
             var shoppingCartItem =
-                    _postcardDbContext.ShoppingCartItems.SingleOrDefault(
+                    _postcardDbContext.CartItems.SingleOrDefault(
                         s => s.Postcard.PostcardId == postcard.PostcardId && s.ShoppingCartId == ShoppingCartId);
 
             int localAmount = 0;
@@ -56,7 +56,7 @@ namespace ASPCourceEmpty.Models
                 }
                 else
                 {
-                    _postcardDbContext.ShoppingCartItems.Remove(shoppingCartItem);
+                    _postcardDbContext.CartItems.Remove(shoppingCartItem);
                 }
             }
 
@@ -68,7 +68,7 @@ namespace ASPCourceEmpty.Models
         public List<ShoppingCartItem> GetShoppingCartItems()
         {
             return Items ??=
-                       _postcardDbContext.ShoppingCartItems.Where(c => c.ShoppingCartId == ShoppingCartId)
+                       _postcardDbContext.CartItems.Where(c => c.ShoppingCartId == ShoppingCartId)
                            .Include(s => s.Postcard)
                            .ToList();
         }
@@ -76,17 +76,17 @@ namespace ASPCourceEmpty.Models
         public void ClearCart()
         {
             var cartItems = _postcardDbContext
-                .ShoppingCartItems
+                .CartItems
                 .Where(cart => cart.ShoppingCartId == ShoppingCartId);
 
-            _postcardDbContext.ShoppingCartItems.RemoveRange(cartItems);
+            _postcardDbContext.CartItems.RemoveRange(cartItems);
 
             _postcardDbContext.SaveChanges();
         }
 
         public decimal GetShoppingCartTotal()
         {
-            var total = _postcardDbContext.ShoppingCartItems.Where(c => c.ShoppingCartId == ShoppingCartId)
+            var total = _postcardDbContext.CartItems.Where(c => c.ShoppingCartId == ShoppingCartId)
                 .Select(c => c.Postcard.Price * c.Amount).Sum();
             return total;
         }

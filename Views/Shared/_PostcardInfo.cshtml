@@ -6,6 +6,11 @@
         <h4 class="d-grid">
         </h4>
 
+        <a class="btn btn-secondary" 
+            asp-controller="ShoppingCart"
+            asp-action="AddToShoppingCart"
+            asp-route-postcardId="@Model.PostcardId">Add to your cart</a>
+
         <div class="d-flex justify-content-between mt-2">
             <h2 class="text-start">
                 <a class="pie-link" asp-controller="Postcard" asp-action="Details" asp-route-id="@Model.PostcardId">@Model.Name</a>
