@@ -7,10 +7,12 @@ namespace ASPCourceEmpty.Controllers
     public class PostcardController : Controller
     {
         private readonly IPostcardsRepository _postcardsRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public PostcardController(IPostcardsRepository postcardsRepository)
+        public PostcardController(IPostcardsRepository postcardsRepository, ICategoryRepository categoryRepository)
         {
             _postcardsRepository = postcardsRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public ViewResult Index()
@@ -18,11 +20,22 @@ namespace ASPCourceEmpty.Controllers
             return View();
         }
 
-        public IActionResult List()
+        public IActionResult List(string category)
         {
-            // ViewBag.CurrentCategory = "Seasons";
             ViewBag.Title = "Postcards";
-            return View(new PostcardViewModel(_postcardsRepository.AllPostcards, "Seasons"));
+            var foundCategory = _categoryRepository.AllCategories.FirstOrDefault(x => x.CategoryName == category);
+
+            string categoryName = "Seasons";
+            IEnumerable<Postcard> postcards = _postcardsRepository.AllPostcards;
+
+            if (foundCategory != null)
+            {
+                categoryName = foundCategory.CategoryName;
+                postcards = _postcardsRepository.AllPostcards.Where(x => x.Category.CategoryName == foundCategory.CategoryName).OrderBy(x=>x.PostcardId);
+            }
+
+
+            return View(new PostcardListViewModel(postcards, categoryName));
         }
 
         public IActionResult Details(int id)
