@@ -17,15 +17,36 @@ namespace ASPCourceEmpty.Controllers
 
 
         [HttpPost]
-        public void Post(Order order)
+        public IActionResult Checkout(Order order)
         {
             // var order = new Order();
             // _orderRepository.CreateOrder()
             System.Console.WriteLine(order);
+            _shoppingCart.GetShoppingCartItems();
+
+            if (_shoppingCart.Items.Count == 0)
+            {
+                ModelState.AddModelError("", "You cart is empty");
+            }
+
+            if (ModelState.IsValid)
+            {  
+                _orderRepository.CreateOrder(order);
+                _shoppingCart.ClearCart();
+                return RedirectToAction("CheckoutComplete");
+            }
+
+            return View(order);
         }
 
         public IActionResult Checkout()
         {
+            return View();
+        }
+
+        public IActionResult CheckoutComplete()
+        {
+            ViewBag.CheckoutCompleteMessage = "Thanks for your order";
             return View();
         }
 
