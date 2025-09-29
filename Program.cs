@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 builder.Services.AddScoped<IPostcardsRepository, PostcardRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
@@ -31,6 +32,7 @@ if (app.Environment.IsDevelopment())
 app.MapDefaultControllerRoute();
 app.UseSession();
 
+app.MapRazorPages();
 //seed initial data
 DBInitializer.Seed(app.Services.CreateAsyncScope().ServiceProvider.GetRequiredService<PostcardDBContext>());
 
