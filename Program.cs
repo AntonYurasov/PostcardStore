@@ -1,9 +1,14 @@
+using System.Text.Json.Serialization;
 using ASPCourceEmpty.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    }
+);
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IPostcardsRepository, PostcardRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();

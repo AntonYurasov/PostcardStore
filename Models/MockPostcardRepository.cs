@@ -24,5 +24,10 @@ namespace ASPCourceEmpty.Models
         }
 
         public Postcard? GetPostcardById(int postcardId) => AllPostcards.FirstOrDefault(p => p.PostcardId == postcardId);
+
+        public IEnumerable<Postcard> SearchPostcards(string searchQuery)
+        {
+            return AllPostcards.Where(p => p.Name.Contains(searchQuery));
+        }
     }
 }

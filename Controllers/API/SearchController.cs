@@ -18,13 +18,30 @@ namespace ASPCourceEmpty.Controllers.API
         [HttpGet]
         public IActionResult GetAll()
         {
-            throw new NotImplementedException();
+            var postcards = _postcardsRepository.AllPostcards;
+            return Ok(postcards);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            throw new NotImplementedException();
+            if (!_postcardsRepository.AllPostcards.Any(p => p.PostcardId == id))
+                return NotFound();
+
+            return Ok(_postcardsRepository.AllPostcards.Where(p => p.PostcardId == id));
+        }
+
+        [HttpPost]
+        public IActionResult SearchPostcards([FromBody] string searchQuery)
+        {
+            IEnumerable<Postcard> postcards = new List<Postcard>();
+
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                postcards = _postcardsRepository.SearchPostcards(searchQuery);
+            }
+
+            return new JsonResult(postcards);
         }
     }
 }
