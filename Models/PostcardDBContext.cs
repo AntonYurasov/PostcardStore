@@ -1,8 +1,9 @@
 using ASPCourceEmpty.Models;
 using Microsoft.EntityFrameworkCore;
 using EFCore.NamingConventions;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-public class PostcardDBContext : DbContext
+public class PostcardDBContext : IdentityDbContext
 {
     // public PostcardDBContext(DbContextOptions<PostcardDBContext> options) : base(options)
     // {

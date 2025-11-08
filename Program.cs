@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using ASPCourceEmpty.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,8 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDbContext<PostcardDBContext>();
 
+builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<PostcardDBContext>();
+
 var app = builder.Build();
 
 app.UseStaticFiles();
@@ -36,6 +39,8 @@ if (app.Environment.IsDevelopment())
 
 app.MapDefaultControllerRoute();
 app.UseSession();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorPages();
 //seed initial data
