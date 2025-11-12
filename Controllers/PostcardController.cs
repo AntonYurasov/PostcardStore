@@ -46,5 +46,10 @@ namespace ASPCourceEmpty.Controllers
 
             return View(postcard);
         }
+
+        public IActionResult Search()
+        {
+            return View();
+        }
     }
 }

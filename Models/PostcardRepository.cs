@@ -21,7 +21,7 @@ namespace ASPCourceEmpty.Models
 
         public IEnumerable<Postcard> SearchPostcards(string searchQuery)
         {
-            return _postcardDBContext.Postcards.Where(p => p.Name.Contains(searchQuery));
+            return _postcardDBContext.Postcards.Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()));
         }
     }
 }
